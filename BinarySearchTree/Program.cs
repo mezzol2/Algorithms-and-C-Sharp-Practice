@@ -24,6 +24,12 @@
             Console.WriteLine(tree.SearchStart(60));
             //Search(34) should return false
             Console.WriteLine(tree.SearchStart(34));
+            //Delete(50) will delete the root
+            tree.Delete(50);
+            //Search(50) should return false
+            Console.WriteLine(tree.SearchStart(50));
+            //TreeHeight() should return 1
+            Console.WriteLine(tree.TreeHeight());
         }
     } 
 }

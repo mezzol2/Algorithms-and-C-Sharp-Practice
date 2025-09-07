@@ -56,6 +56,18 @@ namespace BinarySearchTree
             return Search(root,data) != null;
         }
 
+        //returns the Node with the lowest value on this branch
+        Node FindMinimum(Node node)
+        {
+            //go down the left side the branch until node.Left is null
+            while (node.Left != null)
+            {
+                node = node.Left;
+            }
+
+            return node;
+        }
+
         Node? Search(Node? node, int data)
         {
             Node? res = null;
@@ -77,6 +89,45 @@ namespace BinarySearchTree
             }
 
             return res;
+        }
+
+        public void Delete(int data)
+        {
+            root = Remove(root, data);
+        }
+
+        Node? Remove(Node? node, int data)
+        {
+            if (node == null)
+            {
+                return null;
+            }
+            if (data < node.Data)
+            {
+                node.Left = Remove(node.Left, data);
+                return node;
+            }
+            if (data > node.Data)
+            {
+                node.Right = Remove(node.Right, data);
+            }
+
+            //node.Data == data
+            if (node.Left == null)
+            {   //if the left side is null, return whatever is on the Right
+                return node.Right;
+            }
+            if (node.Right == null)
+            {   //if the right side is null, return whatever is on the Left
+                return node.Left;
+            }
+
+            //if neither side is null, we will get the lowest value from the right side, and put that in this node
+            Node minRight = FindMinimum(node.Right);
+            node.Data = minRight.Data;
+            //remove the value contined in minRight node from the tree
+            node.Right = Remove(node.Right, minRight.Data);
+            return node;
         }
 
         private class Node
