@@ -51,6 +51,34 @@ namespace BinarySearchTree
             return node;
         }
 
+        public bool SearchStart(int data)
+        {   //returns true is a value exists and false if it does not
+            return Search(root,data) != null;
+        }
+
+        Node? Search(Node? node, int data)
+        {
+            Node? res = null;
+            if (node == null)
+            {
+                //return null
+            }
+            else if (node.Data == data)
+            {   //if the data matches, return this node
+                res = node;
+            }
+            else if (data < node.Data)
+            {   //if the data is less than the node, Search the Left side
+                res = Search(node.Left, data);
+            }
+            else if (data > node.Data)
+            {   //if the data is greater than the node, Search the Right side
+                res = Search(node.Right, data);
+            }
+
+            return res;
+        }
+
         private class Node
         {
             public int Data { get; set; }
@@ -61,7 +89,7 @@ namespace BinarySearchTree
             public Node(int data)
             {
                 Data = data;
-            }            
+            }
         }
     }   
 }

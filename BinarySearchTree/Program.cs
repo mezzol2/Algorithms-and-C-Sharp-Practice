@@ -20,6 +20,10 @@
             tree.InsertStart(60);
             //Height should be 2
             Console.WriteLine(tree.TreeHeight());
+            //Search(60) should return True
+            Console.WriteLine(tree.SearchStart(60));
+            //Search(34) should return false
+            Console.WriteLine(tree.SearchStart(34));
         }
     } 
 }
