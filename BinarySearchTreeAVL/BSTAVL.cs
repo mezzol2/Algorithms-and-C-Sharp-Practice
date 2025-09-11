@@ -43,8 +43,8 @@ namespace BinarySearchTreeAVL
                 node.Right = Insert(node.Right, data);
             }
 
-            //return either this node
-            return node;
+            node.SetHeight();
+            return Balance(node);
         }
 
         public bool SearchStart(int data)
@@ -101,39 +101,109 @@ namespace BinarySearchTreeAVL
             if (data < node.Data)
             {
                 node.Left = Remove(node.Left, data);
-                return node;
             }
-            if (data > node.Data)
+            else if (data > node.Data)
             {
                 node.Right = Remove(node.Right, data);
             }
-
             //node.Data == data
-            if (node.Left == null)
+            else if (node.Left == null)
             {   //if the left side is null, return whatever is on the Right
-                return node.Right;
+                node = node.Right;
             }
-            if (node.Right == null)
+            else if (node.Right == null)
             {   //if the right side is null, return whatever is on the Left
-                return node.Left;
+                node = node.Left;
+            }
+            else
+            {
+                //if neither side is null, we will get the lowest value from the right side, and put that in this node
+                Node minRight = FindMinimum(node.Right);
+                node.Data = minRight.Data;
+                //remove the value contined in minRight node from the tree
+                node.Right = Remove(node.Right, minRight.Data);
             }
 
-            //if neither side is null, we will get the lowest value from the right side, and put that in this node
-            Node minRight = FindMinimum(node.Right);
-            node.Data = minRight.Data;
-            //remove the value contined in minRight node from the tree
-            node.Right = Remove(node.Right, minRight.Data);
-            return node;
+            //if the node is now null, there is nothing to balnce
+            if (node is null) return null;
+
+            node.SetHeight();
+            return Balance(node);
         }
 
-        // Node RightRotation(Node z)
-        // {
-        //     Node y = z.Left;
-        //     Node t2 = y.Right;
-        //     y.Right = z;
-        //     z.Left = t2;
+        Node LeftRotation(Node z)
+        {
+            Node y = z.Right;
+            Node t1 = y.Left;
+            y.Left = z;
+            z.Right = t1;
 
-        // }
+            z.SetHeight();
+            y.SetHeight();
+
+            return y;
+        }
+
+        Node RightRotation(Node z)
+        {
+            Node y = z.Left;
+            Node t2 = y.Right;
+            y.Right = z;
+            z.Left = t2;
+
+            z.SetHeight();
+            y.SetHeight();
+
+            return y;
+        }
+
+        int BalanceFactor(Node node)
+        {
+            if (node is null) return 0;
+
+            if (node.Left is null && node.Right is null)
+            {
+                return 0;
+            }
+
+            if (node.Left is null && node.Right is not null)
+            {
+                return -1 - node.Right.Height;
+            }
+
+            if (node.Left is not null && node.Right is null)
+            {
+                return node.Left.Height - -1;
+            }
+
+            return node.Left.Height - node.Right.Height;
+        }
+
+        Node Balance(Node node)
+        {
+            //tree at this node is right-heavy if less than -1
+            if (BalanceFactor(node) < -1)
+            {
+                //node.Right is left-heavy if greater than 0
+                if (BalanceFactor(node.Right) > 0)
+                {
+                    node.Right = RightRotation(node.Right);
+                }
+                return LeftRotation(node);
+            }
+            //tree at this node is left-heavy if greater than 1
+            if (BalanceFactor(node) > 1)
+            {
+                //node.Left is right-heavy if less than 0
+                if (BalanceFactor(node.Left) < 0)
+                {
+                    node.Left = LeftRotation(node.Left);
+                }
+                return RightRotation(node);
+            }
+            //neither side is too heavy
+            return node;
+        }
 
         private class Node
         {
