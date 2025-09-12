@@ -15,8 +15,8 @@ namespace BinaryHeapTree
             }
             else
             {
-                // 
-                //
+                Node last = AddLast(data);
+                last.BubbleUp();
             }
 
             //increase the Size of the tree
@@ -31,7 +31,7 @@ namespace BinaryHeapTree
             //Get the length of the bistring
             int length = path.Length;
             //find the Node which is the Parent of the last node
-            Node lastParent = root.Find(path.Substring(1, path.Length - 1));
+            Node lastParent = root.Find(path.Substring(1, length - 1));
             Node last = new Node(lastParent, x);
 
             //Check the last character in the String to determine wherther the node Last node will be placed to the Left or the Right
@@ -71,7 +71,7 @@ namespace BinaryHeapTree
             }
 
             //"bubble up" through the tree
-            void BubbleUp()
+            public void BubbleUp()
             {
                 if (Parent is null)
                 {
