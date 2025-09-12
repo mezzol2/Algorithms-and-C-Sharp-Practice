@@ -5,6 +5,24 @@ namespace BinaryHeapTree
         Node? root = null;
         public int Size = 0;
 
+        //Insert a new value into the tree
+        public void Insert(int data)
+        {
+            //if the tree is empty, create a root node
+            if (root is null)
+            {
+                root = new Node(null, data);
+            }
+            else
+            {
+                // 
+                //
+            }
+
+            //increase the Size of the tree
+            Size++;
+        }
+
         private class Node
         {
             public int Data { get; set; }
@@ -20,7 +38,7 @@ namespace BinaryHeapTree
             }
 
             //Swap the data between 2 nodes
-            public void SwapData(Node otherNode)
+            void SwapData(Node otherNode)
             {
                 int temp = Data;
                 Data = otherNode.Data;
@@ -28,7 +46,7 @@ namespace BinaryHeapTree
             }
 
             //"bubble up" through the tree
-            public void BubbleUp()
+            void BubbleUp()
             {
                 if (Parent is null)
                 {
@@ -43,8 +61,32 @@ namespace BinaryHeapTree
                 }
             }
 
-            //"bubble down" through the tree
-            
+
+
+            public Node Find(String path)
+            {
+                Node? res = null;
+                //if the path is an empty string, this is the needed node
+                if (path == "")
+                {
+                    res = this;
+                }
+
+                //if the first character is a 0, go to the left
+                if (path[0] == '0')
+                {
+                    path = path.Substring(1);
+                    res = Left.Find(path);
+                }
+                //if the first character is 1, go to the right
+                else if (path[0] == '1')
+                {
+                    path = path.Substring(1);
+                    res = Right.Find(path);
+                }
+
+                return res;
+            }
         }
     }
 }
