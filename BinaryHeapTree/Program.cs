@@ -4,7 +4,12 @@
     {
         public static void Main(string[] args)
         {
-            HeapTree heap = new HeapTree();   
+            //initialize the heap
+            HeapTree heap = new HeapTree();
+            //add 10
+            //heap.Insert(10);
+            //add 3
+            //heap.Insert(3);
         }
     }
 }
