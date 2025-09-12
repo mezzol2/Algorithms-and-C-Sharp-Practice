@@ -30,8 +30,8 @@ namespace BinaryHeapTree
             String path = Convert.ToString(Size + 1, 2);
             //Get the length of the bistring
             int length = path.Length;
-            //find the Node which is the Parent of the last node
-            Node lastParent = root.Find(path.Substring(1, length - 1));
+            //Find the path to the last node's parent
+            Node lastParent = root.Find(path.Substring(1, length - 2));
             Node last = new Node(lastParent, x);
 
             //Check the last character in the String to determine wherther the node Last node will be placed to the Left or the Right
@@ -90,14 +90,13 @@ namespace BinaryHeapTree
             public Node Find(String path)
             {
                 Node? res = null;
-                //if the path is an empty string, this is the needed node
-                if (path == "")
+                //if the path is an empty string or the path only contains 1 character, this is the needed node
+                if (path.Equals(""))
                 {
                     res = this;
                 }
-
                 //if the first character is a 0, go to the left
-                if (path[0] == '0')
+                else if (path[0] == '0')
                 {
                     path = path.Substring(1);
                     res = Left.Find(path);
