@@ -39,20 +39,22 @@ namespace BinaryHeapArray
         {
             //store the lowest value interger
             int x = list[0];
+            //store the length of the list BEFORE removal
+            int n = list.Count;
             //move the last value in the list to the first position
-            list[0] = list[list.Count - 1];
-            list.RemoveAt(list.Count - 1);
+            list[0] = list[n - 1];
+            list.RemoveAt(n - 1);
 
             int i = 0;
-            //while the left child is not the last index in the list
-            while (LeftOf(i) < list.Count - 1)
+            //while the left child still exists in the list
+            while (LeftOf(i) < n - 1)
             {
                 //store the index of the left child
                 int j = LeftOf(i);
 
                 //we want to compare the parent against the lesser of left and right children
-                //if the right child is not the last index in the list and the value on the right is less than the value on the left
-                if (RightOf(i) < list.Count - 1 && list[RightOf(i)] < list[j])
+                //if the right child is exists in the list and the value on the right is less than the value on the left
+                if (RightOf(i) < n - 1 && list[RightOf(i)] < list[j])
                 {
                     //change j to the right child
                     j = RightOf(i);
@@ -79,13 +81,13 @@ namespace BinaryHeapArray
         //returns what would be the left child node in a tree
         int LeftOf(int i)
         {
-            return 2 * (i + 1);
+            return 2 * i + 1;
         }
 
         //returns what would be the right child node in a tree
         int RightOf(int i)
         {
-            return 2 * (i + 2);
+            return 2 * i + 2;
         }
 
         //this method swaps the elements in the list at indexes i and j
