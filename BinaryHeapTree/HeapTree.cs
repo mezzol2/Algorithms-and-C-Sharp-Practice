@@ -23,6 +23,31 @@ namespace BinaryHeapTree
             Size++;
         }
 
+        //Create a new Node in the last position
+        Node AddLast(int x)
+        {
+            //Convert our size into a bitstring
+            String path = Convert.ToString(Size + 1, 2);
+            //Get the length of the bistring
+            int length = path.Length;
+            //find the Node which is the Parent of the last node
+            Node lastParent = root.Find(path.Substring(1, path.Length - 1));
+            Node last = new Node(lastParent, x);
+
+            //Check the last character in the String to determine wherther the node Last node will be placed to the Left or the Right
+            if (path[^1] == '0')
+            {
+                lastParent.Left = last;
+            }
+
+            if (path[^1] == '1')
+            {
+                lastParent.Right = last;
+            }
+
+            return last;
+        }
+
         private class Node
         {
             public int Data { get; set; }
@@ -61,8 +86,7 @@ namespace BinaryHeapTree
                 }
             }
 
-
-
+            //Finds a node given the path
             public Node Find(String path)
             {
                 Node? res = null;
