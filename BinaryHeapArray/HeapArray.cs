@@ -36,7 +36,7 @@ namespace BinaryHeapArray
         
         //returns what would be the right child node in a tree
         int RightOf(int i) {
-            return 2 * (i + 1);
+            return 2 * (i + 2);
         }
 
     } 
