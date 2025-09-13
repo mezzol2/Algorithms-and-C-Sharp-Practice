@@ -45,6 +45,7 @@ namespace BinaryHeapTree
             {
                 //remove the root from the tree and return min
                 root = null;
+                Size = 0;
                 return min;
             }
 
