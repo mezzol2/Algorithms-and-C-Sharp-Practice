@@ -23,10 +23,68 @@ namespace BinaryHeapTree
             Size++;
         }
 
+
+        //this method checks the smallest value from the tree
+        public int CheckMin()
+        {
+            if (root == null)
+            {
+                throw new EmptyTreeException("Tree is empty.");
+            }
+
+            return root.Data;
+        }
+
+        //this method removes and return the smallest value from the tree
+        public int RemoveMin()
+        {
+            int min = CheckMin();
+
+            //check if the root is the only node in the tree
+            if (Size == 1)
+            {
+                //remove the root from the tree and return min
+                root = null;
+                return min;
+            }
+
+            //get the value from the last node
+            root.Data = RemoveLast();
+
+            //bubble down the value until it is in the correct place
+            root.BubbleDown();
+
+            //decrease the Size of the tree and return the minimum value
+            Size--;
+            return min;
+        }
+
+        //get the value from the last node and remove that node from the tree
+        int RemoveLast()
+        {
+            //Convert our size into a bitstring
+            String path = Convert.ToString(Size, 2);
+            //Find the last node
+            Node last = root.Find(path.Substring(1));
+            //remove the last node form the tree
+            //if the last bit of the path was 0, last is a left child
+            if (path[^1] == '0')
+            {
+                last.Parent.Left = null;
+            }
+            //if the last bit of the path was 1, last is a right child
+            if (path[^1] == '1')
+            {
+                last.Parent.Right = null;
+            }
+            //return the value from the last node
+            return last.Data;
+        }
+
         //Create a new Node in the last position
         Node AddLast(int x)
         {
-            //Convert our size into a bitstring
+            //Convert our size with the new last node into a bitstring
             String path = Convert.ToString(Size + 1, 2);
             //Get the length of the bistring
             int length = path.Length;
@@ -86,6 +144,24 @@ namespace BinaryHeapTree
                 }
             }
 
+            //"bubble down" a value through the tree
+            public void BubbleDown()
+            {
+                //initialize the child as the Right
+                Node child = Right;
+                //check if we should actually check on the Left
+                if (child is null || Left.Data <= Right.Data)
+                {
+                    child = Left;
+                }
+
+                if (child is not null && child.Data < Data)
+                {
+                    this.SwapData(child);
+                    child.BubbleDown();
+                }
+            }
+
             //Finds a node given the path
             public Node Find(String path)
             {
@@ -110,6 +186,14 @@ namespace BinaryHeapTree
 
                 return res;
             }
+        }
+    }
+
+    class EmptyTreeException : Exception
+    {
+        public EmptyTreeException(String message)
+            : base(message)
+        {
         }
     }
 }
