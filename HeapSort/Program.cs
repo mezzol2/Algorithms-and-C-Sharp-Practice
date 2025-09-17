@@ -21,7 +21,7 @@
         //Convert array to a Max Heap
         BuildMaxHeap(numbers);
         //Starting from the end, swap the highest value with value at index i, and BubbleDown
-        for (int i = numbers.Length - 1; i >= 0; i--)
+        for (int i = numbers.Length - 1; i > 0; i--)
         {
             Swap(numbers, 0, i);
             BubbleDown(numbers, 0, i);
